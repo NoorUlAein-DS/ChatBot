@@ -24,28 +24,27 @@ with col1:
         st.success("Result: Low Risk (Example Output)")
 
 # --- RIGHT COLUMN: AI DOCTOR CHATBOT ---
+# RIGHT COLUMN: AI DOCTOR CHATBOT
 with col2:
     st.header("2. AI Medical Assistant")
     st.write("Medical terms samajhne ke liye AI Doctor se poochein:")
 
-    groq_api_key = st.text_input("Enter Groq API Key:", type="password")
     user_query = st.text_input("Aapka Sawal:")
 
     if st.button("Ask Doctor AI"):
-        if not groq_api_key:
-            st.warning("Please enter your Groq API Key first!")
-        elif not user_query:
+        if not user_query:
             st.warning("Please type a question!")
         else:
             with st.spinner("Doctor thinking..."):
                 try:
+                    # Streamlit Secrets se API Key le rahe hain
                     llm = ChatGroq(
                         model='llama-3.1-8b-instant',
                         temperature=0.7,
-                        api_key=groq_api_key
+                        api_key=st.secrets["GROQ_API_KE"]
                     )
                     prompt = ChatPromptTemplate.from_messages([
-                        ("system", "You are a helpful medical doctor. Answer health questions in very simple language."),
+                        ("system", "You are a helpful medical doctor. Answer health questions in very simple, easy language with clear examples."),
                         ("human", "{user_question}")
                     ])
                     chain = prompt | llm | StrOutputParser()
