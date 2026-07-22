@@ -41,7 +41,7 @@ with col2:
                     llm = ChatGroq(
                         model='llama-3.1-8b-instant',
                         temperature=0.7,
-                        api_key=st.secrets["GROQ_API_KE"]
+                        api_key=st.secrets["GROQ_API_KEY"]
                     )
                     prompt = ChatPromptTemplate.from_messages([
                         ("system", "You are a helpful medical doctor. Answer health questions in very simple, easy language with clear examples."),
